@@ -28,7 +28,7 @@ client.connect();
 
 //get all submissions
 app.get("/", async (req, res) => {
-  const dbres = await client.query('select * from pastebin_table');
+  const dbres = await client.query('select * from pastebin_table ORDER BY submission_id DESC');
   res.json(dbres.rows);
 });
 
@@ -36,9 +36,9 @@ app.get("/", async (req, res) => {
 app.post("/submit", async (req, res) => {
   try {
     const {title, submission} = req.body; //req.body holds information
-    console.log(req.body)
+    //console.log(req.body)
     const newSubmission = await client.query('INSERT INTO pastebin_table (title, submission) VALUES ($1, $2) RETURNING *', [title, submission]);
-    res.json(newSubmission.rows);
+    res.json(newSubmission.rows[0]);
   } catch (error) {
     console.error(error.message);
   }
