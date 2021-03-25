@@ -28,7 +28,7 @@ client.connect();
 
 //get all submissions
 app.get("/", async (req, res) => {
-  const dbres = await client.query('select * from pastebin_table ORDER BY submission_id DESC');
+  const dbres = await client.query('select * from pastebin_table ORDER BY id DESC');
   res.json(dbres.rows);
 });
 
