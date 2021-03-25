@@ -45,10 +45,10 @@ app.post("/submit", async (req, res) => {
 });
 
 //get a single submission (to be displayed by React)
-app.get("/:submission_id", async(req, res) => {
+app.get("/:id", async(req, res) => {
   try {
-    const {submission_id} = req.params;
-    const getOneSubmission = await client.query('SELECT * FROM pastebin_table WHERE submission_id = $1',[submission_id]);
+    const {id} = req.params;
+    const getOneSubmission = await client.query('SELECT * FROM pastebin_table WHERE id = $1',[id]);
     res.json(getOneSubmission.rows[0]);
   } catch (error) {
     console.error(error.message)
