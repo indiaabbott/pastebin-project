@@ -35,9 +35,9 @@ app.get("/", async (req, res) => {
 //create another submission and insert into database
 app.post("/submit", async (req, res) => {
   try {
-    const {title, submission} = req.body; //req.body holds information
+    const {title, content} = req.body; //req.body holds information
     //console.log(req.body)
-    const newSubmission = await client.query('INSERT INTO pastebin_table (title, submission) VALUES ($1, $2) RETURNING *', [title, submission]);
+    const newSubmission = await client.query('INSERT INTO pastebin_table (title, content) VALUES ($1, $2) RETURNING *', [title, content]);
     res.json(newSubmission.rows[0]);
   } catch (error) {
     console.error(error.message);
@@ -57,6 +57,19 @@ app.get("/:id", async(req, res) => {
 });
 
 
+
+
+//delete a todo
+
+app.delete("/:id", async (req, res) => { //with a URL such as localhost:5000/4, then req.params.id === 4
+  try {
+    const {id} = req.params;
+    const deleteSubmission = await client.query('DELETE FROM pastebin_table WHERE id = $1', [id]);
+    res.json("Todo was deleted!")
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
 
 //Start the server on the given port
